@@ -15,28 +15,31 @@ const storage = multer.diskStorage({
 const pics = multer({ storage });
 
 
-// postmethod
-aroute.post('/addadmindetails', pics.single("file"), async(req, res) => {
+// postmethod for multer/fileupload
+
+aroute.post('/addadmindetails', pics.single("file"), async (req, res) => {
     const add = new adminModel(req.body);
     add.save();
     res.status(201).json(add);
 
-    if(!req.file){
-        return res.status(400).json({error: "no file"})
+    if (!req.file) {
+        return res.status(400).json({ error: "no file" })
     }
 
+    // this is converted to form data
+
     const userData = {
-        username:req.body.username,
-        photo:req.file.filename,
+        username: req.body.username,
+        photo: req.file.filename,
     };
 
-    try{
+    try {
         const profile = new adminModel(userData);
         profile.save();
         return res.status(201).json(profile)
-}catch(err){
-    return res.status(500).json({err});
-}
+    } catch (err) {
+        return res.status(500).json({ err });
+    }
 
 });
 
@@ -54,23 +57,12 @@ aroute.post("/login", async (req, res) => {
     } catch (err) {
         res.status(500).json({ err: 'User login failed' })
     }
-
-    // if (!req.file) {
-    //     return res.status(400).json({ error: "no file" })
-    // }
-
-    // var data = {
-
-    // }
-    // const addDetails = new adminModel(req.body);
-    // addDetails.save();
-    // res.status(201).json(addDetails)
 });
 
 
-// getmethod
+// getmethod for JWT
 
-aroute.get("/adminDetails",verifyToken,  async (req, res) => {
+aroute.get("/adminDetails", verifyToken, async (req, res) => {
     try {
         const adminDetails = await adminModel.find();
         res.status(201).json(adminDetails)
@@ -84,12 +76,12 @@ aroute.get("/adminDetails",verifyToken,  async (req, res) => {
 aroute.get("/authors", verifyToken, async (req, res) => {
 
     try {
-        const admins= await adminModel.find();
+        const admins = await adminModel.find();
         res.status(201).json(admins)
     } catch (error) {
         res.status(500).json("server error")
     }
-  
+
 })
 
 module.exports = aroute;
