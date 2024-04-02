@@ -1,11 +1,11 @@
 const admin = require("mongoose")
 const carData = new admin.Schema({
-    userName:{
+    username:{
         type:String
     },
-    password:{
-        type:String
-    },
+    // password:{
+    //     type:String
+    // },
     image:{
         type:String
     },
