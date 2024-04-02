@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const route = require("./routes/carroutes.js")
+const route = require("./routes/carroutes.js");
+const aroute = require("./routes/adminRoute.js")
 
 const car=express();
 
@@ -20,5 +21,6 @@ mongoose
 
 
 car.use("/car",route)
+car.use("/admin",aroute)
 
 
